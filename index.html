@@ -325,14 +325,9 @@ const valCoeff = document.getElementById('val-coeff');
       });
     }
     
-    // Capacité d'emprunt : C0 = M * (1 - (1+i)^-n) / i
-    let capital = 0;
-    if (i > 0) {
-      capital = mensualiteMax * (1 - Math.pow(1 + i, -n)) / i;
-    } else {
-      capital = mensualiteMax * n;
-    }
-
+// Capacité d'emprunt directe sans recalcul de la formule
+    const capital = mensualiteMax * coeff;
+    
     const totalRembourse = mensualiteMax * n;
     const totalInterets = Math.max(0, totalRembourse - capital);
 
