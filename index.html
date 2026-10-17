@@ -263,6 +263,13 @@
       });
     }
 
+    function computeCoefficient(tauxMensuel, n) {
+      if (tauxMensuel > 0) {
+        return (1 - Math.pow(1 + tauxMensuel, -n)) / tauxMensuel;
+      }
+      return n;
+    }
+
     function update() {
       const revenu = Number(sliderRevenu.value);
       const tauxNominal = Number(sliderTaux.value) / 100;
@@ -278,20 +285,28 @@
       const mensualiteMax = (revenu * 0.35) / 12;
       pctInfo.textContent = fmtEur.format(mensualiteMax);
 
-      const tauxAnnuelUtilise = includeAssurance ? (tauxNominal + assurancePct) : tauxNominal;
-      const i = tauxAnnuelUtilise / 12;
       const n = dureeAnnees * 12;
+      const tauxMensuelCredit = tauxNominal / 12;
+      const coeffCredit = computeCoefficient(tauxMensuelCredit, n);
 
-      let coeff = 0;
-      if (i > 0) {
-        coeff = (1 - Math.pow(1 + i, -n)) / i;
-      } else {
-        coeff = n;
+      let capital = mensualiteMax * coeffCredit;
+      let coeffFinal = coeffCredit;
+
+      if (includeAssurance) {
+        const tauxAssuranceMensuel = assurancePct / 12;
+        const primeMensuelle = capital * tauxAssuranceMensuel;
+        const mensualiteRestante = mensualiteMax - primeMensuelle;
+
+        if (mensualiteRestante > 0) {
+          const coeffSansAssurance = computeCoefficient(tauxMensuelCredit, n);
+          const facteurAssurance = 1 + (assurancePct / 12) * coeffSansAssurance;
+          capital = (mensualiteMax / facteurAssurance) * coeffSansAssurance;
+          coeffFinal = coeffSansAssurance / facteurAssurance;
+        }
       }
 
-      valCoeff.textContent = coeff.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      valCoeff.textContent = coeffFinal.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-      const capital = mensualiteMax * coeff;
       const totalRembourse = mensualiteMax * n;
       const totalInterets = Math.max(0, totalRembourse - capital);
 
@@ -302,13 +317,21 @@
       const crdData = [];
       scheduleTableBody.innerHTML = '';
       let outstanding = capital;
+      let tauxMensuel = tauxMensuelCredit;
+      if (includeAssurance) {
+        tauxMensuel = tauxMensuelCredit;
+      }
 
       for (let m = 0; m <= n; m++) {
         crdData.push(Math.max(0, Math.round(outstanding)));
 
         if (m === n) break;
-        let interestPayment = (i > 0) ? outstanding * i : 0;
-        let principalPayment = mensualiteMax - interestPayment;
+
+        const primeMensuelle = includeAssurance ? outstanding * (assurancePct / 12) : 0;
+        const mensualiteDuPret = mensualiteMax - primeMensuelle;
+        let interestPayment = outstanding * tauxMensuel;
+        let principalPayment = mensualiteDuPret - interestPayment;
+
         if (principalPayment < 0) principalPayment = 0;
         if (principalPayment > outstanding) principalPayment = outstanding;
 
@@ -331,7 +354,7 @@
         tr.appendChild(mensCell);
         scheduleTableBody.appendChild(tr);
 
-        outstanding = outstanding + interestPayment - mensualiteMax;
+        outstanding = outstanding + interestPayment - mensualiteDuPret;
         if (outstanding < 0.01) outstanding = 0;
       }
 
@@ -356,24 +379,24 @@
       const includeAssurance = includeAssuranceCheckbox.checked;
 
       const mensualiteMax = (revenu * 0.35) / 12;
-      const tauxAnnuelUtilise = includeAssurance ? (tauxNominal + assurancePct) : tauxNominal;
-      const i = tauxAnnuelUtilise / 12;
       const n = dureeAnnees * 12;
+      const tauxMensuelCredit = tauxNominal / 12;
+      const coeffCredit = computeCoefficient(tauxMensuelCredit, n);
+      let capital = mensualiteMax * coeffCredit;
 
-      let capital;
-      if (i > 0) {
-        const coeff = (1 - Math.pow(1 + i, -n)) / i;
-        capital = mensualiteMax * coeff;
-      } else {
-        capital = mensualiteMax * n;
+      if (includeAssurance) {
+        const facteurAssurance = 1 + (assurancePct / 12) * coeffCredit;
+        capital = (mensualiteMax / facteurAssurance) * coeffCredit;
       }
 
       let outstanding = capital;
       let rows = [['mois','capital_restant','interet','principal','mensualite']];
 
       for (let m=0; m<n; m++) {
-        const interestPayment = (i > 0) ? outstanding * i : 0;
-        const principalPayment = Math.min(Math.max(mensualiteMax - interestPayment, 0), outstanding);
+        const primeMensuelle = includeAssurance ? outstanding * (assurancePct / 12) : 0;
+        const mensualiteDuPret = mensualiteMax - primeMensuelle;
+        const interestPayment = outstanding * (tauxNominal / 12);
+        const principalPayment = Math.min(Math.max(mensualiteDuPret - interestPayment, 0), outstanding);
         rows.push([
           (m+1),
           Math.round(outstanding),
@@ -381,7 +404,7 @@
           Math.round(principalPayment),
           Math.round(mensualiteMax)
         ]);
-        outstanding = outstanding + interestPayment - mensualiteMax;
+        outstanding = outstanding + interestPayment - mensualiteDuPret;
         if (outstanding < 0.01) outstanding = 0;
       }
 
