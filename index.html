@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Simulateur de capacité d'emprunt immobilier selon la règle HCSF de 35 % d'endettement. Calcul de mensualité, capacité d'emprunt et amortissement.">
   <title>Simulateur de la Capacité d'Emprunt avec la Norme HCSF 35%</title>
-  <!-- Charger le bundle UMD de Chart.js (expose window.Chart) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
   <style>
     :root {
@@ -189,6 +188,75 @@
     footer a:hover {
       text-decoration: underline;
     }
+
+    .footer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: rgba(241,245,249,0.9);
+      border: 1px solid var(--border);
+    }
+
+    .footer-credit {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      color: var(--primary-light);
+      text-decoration: none;
+      font-weight: 600;
+      background: transparent;
+      border: 1px solid transparent;
+      transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+    }
+
+    .footer-link:hover,
+    .footer-link:focus {
+      background: rgba(59,130,246,0.08);
+      color: var(--primary);
+      border-color: rgba(59,130,246,0.12);
+      outline: none;
+      text-decoration: none;
+    }
+
+    .footer-link:focus-visible {
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.14);
+    }
+
+    .footer-link .icon {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 18px;
+    }
+
+    @media (max-width: 520px) {
+      .footer-meta {
+        gap: 8px;
+        padding: 10px;
+      }
+
+      .footer-credit {
+        width: 100%;
+        margin-bottom: 2px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .footer-link {
+        transition: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -200,7 +268,6 @@
   </header>
 
   <div class="layout-grid">
-    <!-- Panneau de réglages (Colonne de gauche) -->
     <div class="card">
       <h2 style="font-size: 1.15rem; margin-bottom: 20px; color: var(--primary);">Paramètres</h2>
 
@@ -234,9 +301,8 @@
           Le coefficient d’actualisation est de «&nbsp;<strong id="val-coeff" aria-live="polite">194,51</strong>&nbsp;» et représente le montant emprunté pour chaque € de mensualité maximale.
         </div>
       </div>
-    </div> <!-- Fermeture de la carte de gauche -->
+    </div>
 
-    <!-- Résultats & Graphique (Colonne de droite) -->
     <div class="card">
       <div class="metrics-summary">
         <div class="metric-box">
@@ -262,7 +328,26 @@
   <footer>
     <p>Calcul hors assurance emprunteur. Simulation à visée purement indicative.</p>
     <p><strong>Rajouter</strong> au moins 0,25&nbsp;% pour <strong>l’assurance décès de l’emprunteur</strong>&nbsp;: <em>par exemple, de 3,75&nbsp;% on passe alors à 4&nbsp;%</em>.</p>
-    <p style="margin-top: 12px;"><em><strong>Conçu et réalisé par JCL9433 avec l'aide de <a href="https://gemini.google.com/app?hl=fr" target="_blank" rel="noopener noreferrer">l'IA Gemini</a> - Hébergé sur <a href="https://github.com/?locale=fr-fr" target="_blank" rel="noopener noreferrer">GitHub</a></strong></em></p>
+
+    <div class="footer-meta" aria-label="Crédits et hébergement">
+      <span class="footer-credit">Conçu et réalisé par <strong>JCL9433</strong> avec l'aide de</span>
+
+      <a class="footer-link" href="https://gemini.google.com/app?hl=fr" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir l'IA Gemini dans un nouvel onglet">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm1 14.5h-2V9h2Zm0-7.5h-2V7h2Z"/>
+        </svg>
+        <span>l'IA Gemini</span>
+      </a>
+
+      <span aria-hidden="true">—</span>
+
+      <a class="footer-link" href="https://github.com/JCL9433/SimulateurDeCredit" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir le dépôt GitHub dans un nouvel onglet">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.7 7.7 0 0 1 8 4.6c.68.003 1.36.092 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <span>GitHub</span>
+      </a>
+    </div>
   </footer>
 </div>
 
@@ -287,7 +372,6 @@
     slider.setAttribute('aria-valuetext', value);
   }
 
-  // debounce helper
   function debounce(fn, wait = 150) {
     let t;
     return function(...args) {
@@ -296,7 +380,6 @@
     };
   }
 
-  // Initialisation du graphique
   const ctx = document.getElementById('amortizationChart').getContext('2d');
   const chart = new Chart(ctx, {
     type: 'line',
@@ -341,14 +424,12 @@
     }
   });
 
-  // function that applies chart data immediately
   function applyChart(labels, data) {
     chart.data.labels = labels;
     chart.data.datasets[0].data = data;
     chart.update('none');
   }
 
-  // debounced version used while user is interacting
   const debouncedApplyChart = debounce(applyChart, 200);
 
   function update(instantChart = false) {
@@ -374,7 +455,6 @@
     const i = tauxAnnuel / 12;
     const n = dureeAnnees * 12;
 
-    // Calcul du coefficient d'actualisation dynamique
     const coeff = (i > 0) ? (1 - Math.pow(1 + i, -n)) / i : n;
 
     if (valCoeff) {
@@ -384,7 +464,6 @@
       });
     }
 
-    // Capacité d'emprunt directe sans recalcul de la formule
     const capital = mensualiteMax * coeff;
     const totalRembourse = mensualiteMax * n;
     const totalInterets = Math.max(0, totalRembourse - capital);
@@ -393,7 +472,6 @@
     resCapital.textContent = fmtEur.format(capital);
     resInterets.textContent = fmtEur.format(totalInterets);
 
-    // Courbe d'amortissement annuel
     const labels = [];
     const crdData = [];
     for (let yr = 0; yr <= dureeAnnees; yr++) {
@@ -405,7 +483,6 @@
       crdData.push(Math.max(0, Math.round(crd)));
     }
 
-    // apply chart update debounced while interacting, instant when requested
     if (instantChart) {
       applyChart(labels, crdData);
     } else {
@@ -413,17 +490,14 @@
     }
   }
 
-  // update labels immediately, chart update debounced
   sliderRevenu.addEventListener('input', () => update(false));
   sliderTaux.addEventListener('input', () => update(false));
   sliderDuree.addEventListener('input', () => update(false));
 
-  // on change (mouse up / keyboard change) apply immediately to show final chart
   sliderRevenu.addEventListener('change', () => update(true));
   sliderTaux.addEventListener('change', () => update(true));
   sliderDuree.addEventListener('change', () => update(true));
 
-  // initial render: compute and apply chart immediately
   update(true);
 </script>
 
