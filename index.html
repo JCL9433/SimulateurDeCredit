@@ -314,6 +314,21 @@ const valCoeff = document.getElementById('val-coeff');
     const i = tauxAnnuel / 12;
     const n = dureeAnnees * 12;
 
+// Calcul et affichage dynamique du coefficient
+    let coeff = 0;
+    if (i > 0) {
+      coeff = (1 - Math.pow(1 + i, -n)) / i;
+    } else {
+      coeff = n;
+    }
+
+    if (valCoeff) {
+      valCoeff.textContent = coeff.toLocaleString('fr-FR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+    
     // Capacité d'emprunt : C0 = M * (1 - (1+i)^-n) / i
     let capital = 0;
     if (i > 0) {
