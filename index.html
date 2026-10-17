@@ -1,379 +1,419 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulateur de la Capacité d'Emprunt avec la Norme HCSF 35%</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulateur de la Capacité d'Emprunt (HCSF 35%)</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root {
-      --primary: #1e3a8a;
-      --primary-light: #3b82f6;
-      --accent: #0284c7;
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --radius: 12px;
+    :root{
+      --primary:#1e3a8a;
+      --primary-light:#3b82f6;
+      --accent:#0284c7;
+      --bg:#f8fafc;
+      --card-bg:#ffffff;
+      --text-main:#0f172a;
+      --text-muted:#64748b;
+      --border:#e2e8f0;
+      --radius:12px;
+      --success:#10b981;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text-main);
-      padding: 24px 16px;
-      line-height: 1.5;
-    }
-
-    .container {
-      max-width: 980px;
-      margin: 0 auto;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    header h1 {
-      font-size: 1.85rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 8px;
-    }
-
-    header p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    .layout-grid {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 24px;
-    }
-
-    @media (min-width: 860px) {
-      .layout-grid {
-        grid-template-columns: 380px 1fr;
-      }
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-      border: 1px solid var(--border);
-    }
-
-    .control-group {
-      margin-bottom: 24px;
-    }
-
-    .control-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .control-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 8px;
-    }
-
-    .control-label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--text-main);
-    }
-
-    .control-val {
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--primary-light);
-    }
-
-    input[type=range] {
-      width: 100%;
-      height: 6px;
-      background: #e2e8f0;
-      border-radius: 4px;
-      outline: none;
-      accent-color: var(--primary-light);
-      cursor: pointer;
-    }
-
-    .metrics-summary {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .metric-box {
-      background: #f1f5f9;
-      padding: 16px;
-      border-radius: 10px;
-      text-align: center;
-      border: 1px solid #e2e8f0;
-    }
-
-    .metric-box.highlight {
-      background: #eff6ff;
-      border-color: #bfdbfe;
-    }
-
-    .metric-label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .metric-value {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .chart-container {
-      position: relative;
-      height: 320px;
-      width: 100%;
-    }
-
-footer {
-      margin-top: 28px;
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    footer a {
-      color: var(--primary-light);
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }    
+    *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    body{background:var(--bg);color:var(--text-main);padding:24px 16px;line-height:1.5}
+    .container{max-width:980px;margin:0 auto}
+    header{text-align:center;margin-bottom:28px}
+    header h1{font-size:1.85rem;font-weight:700;color:var(--primary);margin-bottom:8px}
+    header p{color:var(--text-muted);font-size:0.95rem}
+    .layout-grid{display:grid;grid-template-columns:360px 1fr;gap:24px}
+    @media (min-width:860px){.layout-grid{grid-template-columns:380px 1fr}}
+    .card{background:var(--card-bg);border-radius:var(--radius);padding:24px;box-shadow:0 4px 6px -1px rgba(0,0,0,.05);border:1px solid var(--border)}
+    .control-group{margin-bottom:18px}
+    .control-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+    .control-label{font-weight:600;font-size:.9rem;color:var(--text-main)}
+    .control-val{font-weight:700;font-size:1.05rem;color:var(--primary-light)}
+    input[type=range]{width:100%;height:6px;background:#e2e8f0;border-radius:4px;outline:none;accent-color:var(--primary-light);cursor:pointer}
+    .small-input{width:110px;padding:6px 8px;border-radius:8px;border:1px solid var(--border);background:#fff}
+    .controls-row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+    .metrics-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px}
+    .metric-box{background:#f1f5f9;padding:16px;border-radius:10px;text-align:center;border:1px solid #e2e8f0}
+    .metric-box.highlight{background:#eff6ff;border-color:#bfdbfe}
+    .metric-label{font-size:.8rem;text-transform:uppercase;font-weight:600;letter-spacing:.03em;color:var(--text-muted);margin-bottom:6px}
+    .metric-value{font-size:1.35rem;font-weight:700;color:var(--primary)}
+    .chart-container{position:relative;height:320px;width:100%}
+    .muted-note{margin-top:12px;color:#475569;font-size:.85rem}
+    .info-box{margin-top:24px;padding:14px;background:#fafafa;border-radius:8px;font-size:.85rem;color:#475569;border-left:3px solid var(--primary-light)}
+    button{background:var(--primary);color:#fff;padding:8px 12px;border-radius:8px;border:0;cursor:pointer}
+    button.secondary{background:#64748b}
+    footer{margin-top:28px;text-align:center;font-size:.85rem;color:var(--text-muted);line-height:1.6}
+    footer a{color:var(--primary-light);text-decoration:none}
+    footer a:hover{text-decoration:underline}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:6px 8px;border-bottom:1px solid #e6eef8;text-align:right;font-variant-numeric:tabular-nums}
+    th{text-align:left;color:var(--text-muted);font-weight:600}
+    .toggle{display:inline-flex;align-items:center;gap:8px}
+    .hidden{display:none}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <h1>Simulateur d'Emprunt Immobilier</h1>
+      <p>Capacité maximale d'emprunt calculée selon la recommandation du Haut Conseil de Stabilité Financière (HCSF) : endettement maximum de 35 %</p>
+    </header>
 
-<div class="container">
-  <header>
-    <h1>Simulateur d'Emprunt Immobilier</h1>
-    <p>Capacité maximale d'emprunt calculée selon la recommandation du Haut Conseil de Stabilité Financière (HCSF) : endettement maximum de 35%</p>
-  </header>
+    <div class="layout-grid">
+      <div class="card" aria-labelledby="params-title">
+        <h2 id="params-title" style="font-size:1.15rem;margin-bottom:20px;color:var(--primary)">Paramètres</h2>
 
-  <div class="layout-grid">
-    <!-- Panneau de réglages -->
-    <div class="card">
-      <h2 style="font-size: 1.15rem; margin-bottom: 20px; color: var(--primary);">Paramètres</h2>
-
-      <div class="control-group">
-        <div class="control-header">
-          <label class="control-label" for="slider-revenu">Revenu annuel net</label>
-          <span class="control-val" id="val-revenu">55 000 €</span>
+        <div class="control-group" aria-live="polite">
+          <div class="control-header">
+            <label class="control-label" for="slider-revenu">Revenu annuel net</label>
+            <span class="control-val" id="val-revenu">55 000 €</span>
+          </div>
+          <div class="controls-row">
+            <input type="range" id="slider-revenu" min="15000" max="150000" step="1000" value="55000" aria-label="Revenu annuel net (glissière)">
+            <input type="number" id="input-revenu" class="small-input" min="15000" max="150000" step="1000" value="55000" aria-label="Revenu annuel net (valeur)">
+          </div>
         </div>
-        <input type="range" id="slider-revenu" min="15000" max="150000" step="1000" value="55000">
+
+        <div class="control-group" aria-live="polite">
+          <div class="control-header">
+            <label class="control-label" for="slider-taux">Taux d'intérêt annuel (%)</label>
+            <span class="control-val" id="val-taux">3.75 %</span>
+          </div>
+          <div class="controls-row">
+            <input type="range" id="slider-taux" min="1.0" max="6.5" step="0.05" value="3.75" aria-label="Taux d'intérêt (glissière)">
+            <input type="number" id="input-taux" class="small-input" min="0" max="20" step="0.01" value="3.75" aria-label="Taux d'intérêt (valeur)">
+          </div>
+        </div>
+
+        <div class="control-group" aria-live="polite">
+          <div class="control-header">
+            <label class="control-label" for="slider-duree">Durée du prêt (années)</label>
+            <span class="control-val" id="val-duree">25 ans</span>
+          </div>
+          <div class="controls-row">
+            <input type="range" id="slider-duree" min="5" max="25" step="1" value="25" aria-label="Durée du prêt (glissière)">
+            <input type="number" id="input-duree" class="small-input" min="1" max="40" step="1" value="25" aria-label="Durée du prêt (valeur)">
+          </div>
+        </div>
+
+        <div class="control-group" aria-live="polite">
+          <div class="control-header">
+            <label class="control-label" for="input-assurance">Taux assurance annuelle</label>
+            <span class="control-val" id="val-assurance">0.25 %</span>
+          </div>
+          <div class="controls-row">
+            <input type="range" id="slider-assurance" min="0" max="3.0" step="0.01" value="0.25" aria-label="Taux assurance (glissière)">
+            <input type="number" id="input-assurance" class="small-input" min="0" max="10" step="0.01" value="0.25" aria-label="Taux assurance (valeur)">
+          </div>
+          <div style="margin-top:8px;">
+            <label class="toggle"><input type="checkbox" id="include-assurance" checked> Inclure l'assurance dans le taux global</label>
+          </div>
+        </div>
+
+        <div class="info-box" aria-live="polite">
+          <div><strong>Règle HCSF :</strong> Mensualité plafonnée à 35 % des revenus nets.</div>
+          <div style="margin-top:10px;border-top:1px dashed #e2e8f0;padding-top:10px;">
+            Mensualité maximale : <strong><span id="pct-info">1 604 €</span> / mois</strong>.
+            Coefficient d'actualisation (PV factor) : <strong><span id="val-coeff">194,51</span></strong>.
+          </div>
+        </div>
       </div>
 
-      <div class="control-group">
-        <div class="control-header">
-          <label class="control-label" for="slider-taux">Taux d'intérêt annuel</label>
-          <span class="control-val" id="val-taux">3.75 %</span>
-        </div>
-        <input type="range" id="slider-taux" min="1.0" max="6.5" step="0.05" value="3.75">
-      </div>
+      <div class="card" aria-labelledby="results-title">
+        <h2 id="results-title" style="font-size:1rem;margin-bottom:12px;color:var(--primary)">Résultats</h2>
 
-      <div class="control-group">
-        <div class="control-header">
-          <label class="control-label" for="slider-duree">Durée du prêt</label>
-          <span class="control-val" id="val-duree">25 ans</span>
+        <div class="metrics-summary" role="region" aria-live="polite">
+          <div class="metric-box">
+            <div class="metric-label">Mensualité max</div>
+            <div class="metric-value" id="res-mensualite">1 604 €</div>
+          </div>
+          <div class="metric-box highlight">
+            <div class="metric-label">Capacité d'emprunt</div>
+            <div class="metric-value" id="res-capital">312 015 €</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Total des intérêts</div>
+            <div class="metric-value" id="res-interets">169 235 €</div>
+          </div>
         </div>
-        <input type="range" id="slider-duree" min="5" max="25" step="1" value="25">
-      </div>
 
-      <div style="margin-top: 24px; padding: 14px; background: #fafafa; border-radius: 8px; font-size: 0.85rem; color: #475569; border-left: 3px solid var(--primary-light);">
-       <div><strong>Règle HCSF&nbsp;:</strong> Mensualité plafonnée à 35&nbsp;% des revenus nets, soit <strong><span id="pct-info">1 604 €</span> / mois</strong>.</div>
-       <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e2e8f0; font-size: 0.82rem; line-height: 1.45;">
-         Le coefficient d’actualisation est de «&nbsp;<strong id="val-coeff">194,51</strong>&nbsp;» et représente le montant emprunté pour chaque € de mensualité maximale.
-       </div>
-      </div>
-    </div> 
-      
-    <!-- Résultats & Graphique -->
-    <div class="card">
-      <div class="metrics-summary">
-        <div class="metric-box">
-          <div class="metric-label">Mensualité max</div>
-          <div class="metric-value" id="res-mensualite">1 604 €</div>
+        <div class="chart-container" aria-hidden="false">
+          <canvas id="amortizationChart" role="img" aria-label="Courbe du capital restant dû"></canvas>
         </div>
-        <div class="metric-box highlight">
-          <div class="metric-label">Capacité d'emprunt</div>
-          <div class="metric-value" id="res-capital">312 015 €</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-label">Total des intérêts</div>
-          <div class="metric-value" id="res-interets">169 235 €</div>
-        </div>
-      </div>
 
-      <div class="chart-container">
-        <canvas id="amortizationChart"></canvas>
+        <div style="margin-top:12px;display:flex;gap:12px;align-items:center">
+          <button id="btn-toggle-table" type="button" aria-expanded="false">Afficher le tableau d'amortissement</button>
+          <button id="btn-export" class="secondary" type="button">Exporter CSV</button>
+        </div>
+
+        <div id="amort-table" class="hidden" style="margin-top:12px">
+          <div style="max-height:340px;overflow:auto;border:1px solid var(--border);border-radius:8px;padding:8px;background:#fff">
+            <table id="schedule-table" aria-label="Tableau d'amortissement">
+              <thead>
+                <tr>
+                  <th>Mo</th>
+                  <th>Capital restant (€)</th>
+                  <th>Intérêt payé (€)</th>
+                  <th>Principal payé (€)</th>
+                  <th>Mensualité (€)</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <p class="muted-note">Calcul hors assurance emprunteur sauf si cochée. Simulation indicative.</p>
       </div>
     </div>
+
+    <footer>
+      <p>Simulation à visée purement indicative. Conçu et réalisé par JCL9433.</p>
+      <p>Pour l'assurance décès/invalidité il est recommandé d'ajouter au moins 0,25 % à titre indicatif.</p>
+    </footer>
   </div>
 
-<footer>
-    <p>Calcul hors assurance emprunteur. Simulation à visée purement indicative.</p>
-    <p><strong>Rajouter</strong> au moins 0,25&nbsp;% pour <strong>l’assurance décès de l’emprunteur</strong>&nbsp;: <em>par exemple, de 3,75&nbsp;% on passe alors à 4&nbsp;%</em>.</p>
-    <p style="margin-top: 12px;"><em><strong>Conçu et réalisé par JCL9433 avec l'aide de <a href="https://gemini.google.com/app?hl=fr" target="_blank" rel="noopener noreferrer">l'IA Gemini</a></strong></em></p>
-  </footer>
-</div>
+  <script>
+    const fmtEur = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
 
-<script>
-  const fmtEur = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+    const sliderRevenu = document.getElementById('slider-revenu');
+    const sliderTaux = document.getElementById('slider-taux');
+    const sliderDuree = document.getElementById('slider-duree');
+    const sliderAssurance = document.getElementById('slider-assurance');
 
-  const sliderRevenu = document.getElementById('slider-revenu');
-  const sliderTaux = document.getElementById('slider-taux');
-  const sliderDuree = document.getElementById('slider-duree');
+    const inputRevenu = document.getElementById('input-revenu');
+    const inputTaux = document.getElementById('input-taux');
+    const inputDuree = document.getElementById('input-duree');
+    const inputAssurance = document.getElementById('input-assurance');
 
-  const valRevenu = document.getElementById('val-revenu');
-  const valTaux = document.getElementById('val-taux');
-  const valDuree = document.getElementById('val-duree');
-  const pctInfo = document.getElementById('pct-info');
+    const valRevenu = document.getElementById('val-revenu');
+    const valTaux = document.getElementById('val-taux');
+    const valDuree = document.getElementById('val-duree');
+    const valAssurance = document.getElementById('val-assurance');
 
-  const resMensualite = document.getElementById('res-mensualite');
-  const resCapital = document.getElementById('res-capital');
-  const resInterets = document.getElementById('res-interets');
+    const pctInfo = document.getElementById('pct-info');
+    const valCoeff = document.getElementById('val-coeff');
 
-const valCoeff = document.getElementById('val-coeff');
-  
-  // Chart Setup
-  const ctx = document.getElementById('amortizationChart').getContext('2d');
-  let chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: [],
-      datasets: [{
-        label: 'Capital restant dû (€)',
-        data: [],
-        borderColor: '#1e3a8a',
-        backgroundColor: 'rgba(59, 130, 246, 0.12)',
-        fill: true,
-        tension: 0.25,
-        borderWidth: 2,
-        pointRadius: 2,
-        pointHoverRadius: 6
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => ' Capital restant : ' + fmtEur.format(ctx.raw)
-          }
-        }
+    const resMensualite = document.getElementById('res-mensualite');
+    const resCapital = document.getElementById('res-capital');
+    const resInterets = document.getElementById('res-interets');
+
+    const includeAssuranceCheckbox = document.getElementById('include-assurance');
+
+    const btnToggleTable = document.getElementById('btn-toggle-table');
+    const amortTable = document.getElementById('amort-table');
+    const scheduleTableBody = document.querySelector('#schedule-table tbody');
+    const btnExport = document.getElementById('btn-export');
+
+    const ctx = document.getElementById('amortizationChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Capital restant dû (€)',
+          data: [],
+          borderColor: '#1e3a8a',
+          backgroundColor: 'rgba(59,130,246,0.12)',
+          fill: true,
+          tension: 0.25,
+          borderWidth: 2,
+          pointRadius: 2,
+          pointHoverRadius: 6
+        }]
       },
-      scales: {
-        x: {
-          title: { display: true, text: 'Années écoulées' },
-          grid: { display: false }
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ' Capital restant : ' + fmtEur.format(ctx.raw)
+            }
+          }
         },
-        y: {
-          title: { display: true, text: 'Montant restant dû' },
-          ticks: {
-            callback: (v) => fmtEur.format(v)
+        scales: {
+          x: { title: { display: true, text: 'Mois écoulés' }, grid: { display: false } },
+          y: {
+            title: { display: true, text: 'Montant restant dû' },
+            ticks: { callback: (v) => fmtEur.format(v) }
           }
         }
       }
-    }
-  });
+    });
 
-  function update() {
-    const revenu = parseFloat(sliderRevenu.value);
-    const tauxAnnuel = parseFloat(sliderTaux.value) / 100;
-    const dureeAnnees = parseInt(sliderDuree.value, 10);
-
-    valRevenu.textContent = fmtEur.format(revenu);
-    valTaux.textContent = (tauxAnnuel * 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '\u00A0%';
-    valDuree.textContent = dureeAnnees + ' ans';
-
-    const mensualiteMax = (revenu * 0.35) / 12;
-    pctInfo.textContent = fmtEur.format(mensualiteMax);
-
-    const i = tauxAnnuel / 12;
-    const n = dureeAnnees * 12;
-
-// Calcul et affichage dynamique du coefficient
-    let coeff = 0;
-    if (i > 0) {
-      coeff = (1 - Math.pow(1 + i, -n)) / i;
-    } else {
-      coeff = n;
-    }
-
-    if (valCoeff) {
-      valCoeff.textContent = coeff.toLocaleString('fr-FR', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+    function syncRangeAndNumber(range, number, callback) {
+      range.addEventListener('input', (e) => {
+        number.value = e.target.value;
+        if (callback) callback();
+      });
+      number.addEventListener('input', (e) => {
+        const min = parseFloat(range.min);
+        const max = parseFloat(range.max);
+        let v = parseFloat(e.target.value);
+        if (isNaN(v)) v = min;
+        v = Math.min(Math.max(v, min), max);
+        range.value = v;
+        number.value = v;
+        if (callback) callback();
       });
     }
-    
-// Capacité d'emprunt directe sans recalcul de la formule
-    const capital = mensualiteMax * coeff;
-    
-    const totalRembourse = mensualiteMax * n;
-    const totalInterets = Math.max(0, totalRembourse - capital);
 
-    resMensualite.textContent = fmtEur.format(mensualiteMax);
-    resCapital.textContent = fmtEur.format(capital);
-    resInterets.textContent = fmtEur.format(totalInterets);
+    function update() {
+      const revenu = Number(sliderRevenu.value);
+      const tauxNominal = Number(sliderTaux.value) / 100;
+      const dureeAnnees = parseInt(sliderDuree.value, 10);
+      const assurancePct = Number(sliderAssurance.value) / 100;
+      const includeAssurance = includeAssuranceCheckbox.checked;
 
-    // Amortization curve
-    const labels = [];
-    const crdData = [];
-    for (let yr = 0; yr <= dureeAnnees; yr++) {
-      labels.push('Année ' + yr);
-      const mElapsed = yr * 12;
-      let crd = 0;
+      valRevenu.textContent = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(revenu);
+      valTaux.textContent = (Number(sliderTaux.value)).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '\u00A0%';
+      valDuree.textContent = dureeAnnees + ' ans';
+      valAssurance.textContent = (Number(sliderAssurance.value)).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '\u00A0%';
+
+      const mensualiteMax = (revenu * 0.35) / 12;
+      pctInfo.textContent = fmtEur.format(mensualiteMax);
+
+      const tauxAnnuelUtilise = includeAssurance ? (tauxNominal + assurancePct) : tauxNominal;
+      const i = tauxAnnuelUtilise / 12;
+      const n = dureeAnnees * 12;
+
+      let coeff = 0;
       if (i > 0) {
-        crd = capital * Math.pow(1 + i, mElapsed) - mensualiteMax * ((Math.pow(1 + i, mElapsed) - 1) / i);
+        coeff = (1 - Math.pow(1 + i, -n)) / i;
       } else {
-        crd = capital - mensualiteMax * mElapsed;
+        coeff = n;
       }
-      crdData.push(Math.max(0, Math.round(crd)));
+
+      valCoeff.textContent = coeff.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      const capital = mensualiteMax * coeff;
+      const totalRembourse = mensualiteMax * n;
+      const totalInterets = Math.max(0, totalRembourse - capital);
+
+      resMensualite.textContent = fmtEur.format(mensualiteMax);
+      resCapital.textContent = fmtEur.format(Math.round(capital));
+      resInterets.textContent = fmtEur.format(Math.round(totalInterets));
+
+      const crdData = [];
+      scheduleTableBody.innerHTML = '';
+      let outstanding = capital;
+
+      for (let m = 0; m <= n; m++) {
+        crdData.push(Math.max(0, Math.round(outstanding)));
+
+        if (m === n) break;
+        let interestPayment = (i > 0) ? outstanding * i : 0;
+        let principalPayment = mensualiteMax - interestPayment;
+        if (principalPayment < 0) principalPayment = 0;
+        if (principalPayment > outstanding) principalPayment = outstanding;
+
+        const tr = document.createElement('tr');
+        const moCell = document.createElement('td');
+        moCell.textContent = (m + 1);
+        moCell.style.textAlign = 'right';
+        const crdCell = document.createElement('td');
+        crdCell.textContent = fmtEur.format(Math.max(0, Math.round(outstanding)));
+        const intCell = document.createElement('td');
+        intCell.textContent = fmtEur.format(Math.round(interestPayment));
+        const prinCell = document.createElement('td');
+        prinCell.textContent = fmtEur.format(Math.round(principalPayment));
+        const mensCell = document.createElement('td');
+        mensCell.textContent = fmtEur.format(Math.round(mensualiteMax));
+        tr.appendChild(moCell);
+        tr.appendChild(crdCell);
+        tr.appendChild(intCell);
+        tr.appendChild(prinCell);
+        tr.appendChild(mensCell);
+        scheduleTableBody.appendChild(tr);
+
+        outstanding = outstanding + interestPayment - mensualiteMax;
+        if (outstanding < 0.01) outstanding = 0;
+      }
+
+      const chartLabels = [];
+      const chartData = [];
+      for (let y = 0; y <= dureeAnnees; y++) {
+        chartLabels.push('Année ' + y);
+        const mIndex = Math.min(y * 12, crdData.length - 1);
+        chartData.push(crdData[mIndex] || 0);
+      }
+
+      chart.data.labels = chartLabels;
+      chart.data.datasets[0].data = chartData;
+      chart.update('none');
     }
 
-    chart.data.labels = labels;
-    chart.data.datasets[0].data = crdData;
-    chart.update('none');
-  }
+    function exportCSV() {
+      const revenu = Number(sliderRevenu.value);
+      const tauxNominal = Number(sliderTaux.value) / 100;
+      const dureeAnnees = parseInt(sliderDuree.value, 10);
+      const assurancePct = Number(sliderAssurance.value) / 100;
+      const includeAssurance = includeAssuranceCheckbox.checked;
 
-  sliderRevenu.addEventListener('input', update);
-  sliderTaux.addEventListener('input', update);
-  sliderDuree.addEventListener('input', update);
+      const mensualiteMax = (revenu * 0.35) / 12;
+      const tauxAnnuelUtilise = includeAssurance ? (tauxNominal + assurancePct) : tauxNominal;
+      const i = tauxAnnuelUtilise / 12;
+      const n = dureeAnnees * 12;
 
-  update();
-</script>
+      let capital;
+      if (i > 0) {
+        const coeff = (1 - Math.pow(1 + i, -n)) / i;
+        capital = mensualiteMax * coeff;
+      } else {
+        capital = mensualiteMax * n;
+      }
 
+      let outstanding = capital;
+      let rows = [['mois','capital_restant','interet','principal','mensualite']];
+
+      for (let m=0; m<n; m++) {
+        const interestPayment = (i > 0) ? outstanding * i : 0;
+        const principalPayment = Math.min(Math.max(mensualiteMax - interestPayment, 0), outstanding);
+        rows.push([
+          (m+1),
+          Math.round(outstanding),
+          Math.round(interestPayment),
+          Math.round(principalPayment),
+          Math.round(mensualiteMax)
+        ]);
+        outstanding = outstanding + interestPayment - mensualiteMax;
+        if (outstanding < 0.01) outstanding = 0;
+      }
+
+      const csv = rows.map(r => r.join(';')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'amortissement.csv';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    btnToggleTable.addEventListener('click', () => {
+      const isHidden = amortTable.classList.toggle('hidden');
+      btnToggleTable.setAttribute('aria-expanded', String(!isHidden));
+      btnToggleTable.textContent = isHidden ? 'Afficher le tableau d\'amortissement' : 'Masquer le tableau d\'amortissement';
+    });
+
+    btnExport.addEventListener('click', exportCSV);
+
+    syncRangeAndNumber(sliderRevenu, inputRevenu, update);
+    syncRangeAndNumber(sliderTaux, inputTaux, update);
+    syncRangeAndNumber(sliderDuree, inputDuree, update);
+    syncRangeAndNumber(sliderAssurance, inputAssurance, update);
+
+    includeAssuranceCheckbox.addEventListener('change', update);
+
+    update();
+  </script>
 </body>
 </html>
