@@ -193,7 +193,6 @@
     const valDuree = document.getElementById('val-duree');
     const valAssurance = document.getElementById('val-assurance');
 
-    const pctInfo = document.getElementById('pct-info');
     const valCoeff = document.getElementById('val-coeff');
 
     const resMensualite = document.getElementById('res-mensualite');
@@ -282,27 +281,23 @@
       valDuree.textContent = dureeAnnees + ' ans';
       valAssurance.textContent = (Number(sliderAssurance.value)).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '\u00A0%';
 
+      // Mensualité maximale (35% des revenus nets)
       const mensualiteMax = (revenu * 0.35) / 12;
-      pctInfo.textContent = fmtEur.format(mensualiteMax);
 
       const n = dureeAnnees * 12;
       const tauxMensuelCredit = tauxNominal / 12;
-      const coeffCredit = computeCoefficient(tauxMensuelCredit, n);
 
-      let capital = mensualiteMax * coeffCredit;
-      let coeffFinal = coeffCredit;
+      // coefficient sans assurance (capital pour 1€ de mensualité)
+      const coeffSansAssurance = computeCoefficient(tauxMensuelCredit, n);
+
+      let coeffFinal = coeffSansAssurance;
+      let capital = mensualiteMax * coeffSansAssurance;
 
       if (includeAssurance) {
         const tauxAssuranceMensuel = assurancePct / 12;
-        const primeMensuelle = capital * tauxAssuranceMensuel;
-        const mensualiteRestante = mensualiteMax - primeMensuelle;
-
-        if (mensualiteRestante > 0) {
-          const coeffSansAssurance = computeCoefficient(tauxMensuelCredit, n);
-          const facteurAssurance = 1 + (assurancePct / 12) * coeffSansAssurance;
-          capital = (mensualiteMax / facteurAssurance) * coeffSansAssurance;
-          coeffFinal = coeffSansAssurance / facteurAssurance;
-        }
+        const facteurAssurance = 1 + tauxAssuranceMensuel * coeffSansAssurance;
+        coeffFinal = coeffSansAssurance / facteurAssurance;
+        capital = mensualiteMax * coeffFinal;
       }
 
       valCoeff.textContent = coeffFinal.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -318,9 +313,6 @@
       scheduleTableBody.innerHTML = '';
       let outstanding = capital;
       let tauxMensuel = tauxMensuelCredit;
-      if (includeAssurance) {
-        tauxMensuel = tauxMensuelCredit;
-      }
 
       for (let m = 0; m <= n; m++) {
         crdData.push(Math.max(0, Math.round(outstanding)));
@@ -381,12 +373,12 @@
       const mensualiteMax = (revenu * 0.35) / 12;
       const n = dureeAnnees * 12;
       const tauxMensuelCredit = tauxNominal / 12;
-      const coeffCredit = computeCoefficient(tauxMensuelCredit, n);
-      let capital = mensualiteMax * coeffCredit;
+      const coeffSansAssurance = computeCoefficient(tauxMensuelCredit, n);
+      let capital = mensualiteMax * coeffSansAssurance;
 
       if (includeAssurance) {
-        const facteurAssurance = 1 + (assurancePct / 12) * coeffCredit;
-        capital = (mensualiteMax / facteurAssurance) * coeffCredit;
+        const facteurAssurance = 1 + (assurancePct / 12) * coeffSansAssurance;
+        capital = (mensualiteMax / facteurAssurance) * coeffSansAssurance;
       }
 
       let outstanding = capital;
