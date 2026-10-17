@@ -262,7 +262,7 @@
   <footer>
     <p>Calcul hors assurance emprunteur. Simulation à visée purement indicative.</p>
     <p><strong>Rajouter</strong> au moins 0,25&nbsp;% pour <strong>l’assurance décès de l’emprunteur</strong>&nbsp;: <em>par exemple, de 3,75&nbsp;% on passe alors à 4&nbsp;%</em>.</p>
-    <p style="margin-top: 12px;"><em><strong>Conçu et réalisé par JCL9433 avec l'aide de <a href="https://gemini.google.com/app?hl=fr" target="_blank" rel="noopener noreferrer">l'IA Gemini</a> - Hébergé sur <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a></strong></em></p>
+    <p style="margin-top: 12px;"><em><strong>Conçu et réalisé par JCL9433 avec l'aide de <a href="https://gemini.google.com/app?hl=fr" target="_blank" rel="noopener noreferrer">l'IA Gemini</a> - Hébergé sur <a href="https://github.com/JCL9433/SimulateurDeCredit" target="_blank" rel="noopener noreferrer">GitHub</a></strong></em></p>
   </footer>
 </div>
 
@@ -285,6 +285,15 @@
 
   function setSliderText(slider, value) {
     slider.setAttribute('aria-valuetext', value);
+  }
+
+  // debounce helper
+  function debounce(fn, wait = 150) {
+    let t;
+    return function(...args) {
+      clearTimeout(t);
+      t = setTimeout(() => fn.apply(this, args), wait);
+    };
   }
 
   // Initialisation du graphique
@@ -332,7 +341,17 @@
     }
   });
 
-  function update() {
+  // function that applies chart data immediately
+  function applyChart(labels, data) {
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = data;
+    chart.update('none');
+  }
+
+  // debounced version used while user is interacting
+  const debouncedApplyChart = debounce(applyChart, 200);
+
+  function update(instantChart = false) {
     const revenu = parseFloat(sliderRevenu.value);
     const tauxAnnuel = parseFloat(sliderTaux.value) / 100;
     const dureeAnnees = parseInt(sliderDuree.value, 10);
@@ -386,16 +405,26 @@
       crdData.push(Math.max(0, Math.round(crd)));
     }
 
-    chart.data.labels = labels;
-    chart.data.datasets[0].data = crdData;
-    chart.update('none');
+    // apply chart update debounced while interacting, instant when requested
+    if (instantChart) {
+      applyChart(labels, crdData);
+    } else {
+      debouncedApplyChart(labels, crdData);
+    }
   }
 
-  sliderRevenu.addEventListener('input', update);
-  sliderTaux.addEventListener('input', update);
-  sliderDuree.addEventListener('input', update);
+  // update labels immediately, chart update debounced
+  sliderRevenu.addEventListener('input', () => update(false));
+  sliderTaux.addEventListener('input', () => update(false));
+  sliderDuree.addEventListener('input', () => update(false));
 
-  update();
+  // on change (mouse up / keyboard change) apply immediately to show final chart
+  sliderRevenu.addEventListener('change', () => update(true));
+  sliderTaux.addEventListener('change', () => update(true));
+  sliderDuree.addEventListener('change', () => update(true));
+
+  // initial render: compute and apply chart immediately
+  update(true);
 </script>
 
 </body>
