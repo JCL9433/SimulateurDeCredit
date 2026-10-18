@@ -20,13 +20,17 @@
 body {
   background-color: var(--bg);
   color: var(--text-main);
-  padding: 24px 16px;
+  /* retirer le padding horizontal du body pour un centrage plus propre */
+  padding: 24px 0;
   line-height: 1.5;
 }
 
 .container {
-  max-width: 980px;
+  /* un peu plus large sur les grands écrans pour mieux occuper l'espace */
+  max-width: 1100px;
   margin: 0 auto;
+  /* garde un padding intérieur pour petits écrans / edge gutters */
+  padding: 0 16px;
 }
 
 header {
@@ -54,7 +58,9 @@ header p {
 
 @media (min-width: 860px) {
   .layout-grid {
-    grid-template-columns: 380px 1fr;
+    /* première colonne fixe, seconde colonne flexible mais avec minmax pour meilleure distribution */
+    grid-template-columns: 380px minmax(420px, 1fr);
+    gap: 32px;
   }
 }
 
@@ -161,6 +167,19 @@ input[type=range] {
   position: relative;
   height: 320px;
   width: 100%;
+  /* centrer le contenu (canvas) horizontalement */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* s'assurer que le canvas ne déborde pas et reste centré */
+#amortizationChart,
+.chart-container canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 footer {
