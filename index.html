@@ -23,6 +23,8 @@
   <meta name="twitter:description" content="Estimez votre capacité d'emprunt immobilier et votre mensualité selon la règle HCSF 35 %.">
   <meta name="twitter:image" content="https://simulez-votre-credit.fr/og-image.jpg">
 
+  <link rel="stylesheet" href="styles.css">
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -45,258 +47,6 @@
   </script>
   
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
-  <style>
-    :root {
-      --primary: #1e3a8a;
-      --primary-light: #3b82f6;
-      --accent: #0284c7;
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --radius: 12px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text-main);
-      padding: 24px 16px;
-      line-height: 1.5;
-    }
-
-    .container {
-      max-width: 980px;
-      margin: 0 auto;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    header h1 {
-      font-size: 1.85rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 8px;
-    }
-
-    header p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    .layout-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-
-    @media (min-width: 860px) {
-      .layout-grid {
-        grid-template-columns: 380px 1fr;
-      }
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-      border: 1px solid var(--border);
-    }
-
-    .control-group {
-      margin-bottom: 24px;
-    }
-
-    .control-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .control-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 8px;
-      gap: 12px;
-    }
-
-    .control-label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--text-main);
-    }
-
-    .control-val {
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--primary-light);
-    }
-
-    input[type=range] {
-      width: 100%;
-      height: 6px;
-      background: #e2e8f0;
-      border-radius: 4px;
-      outline: none;
-      accent-color: var(--primary-light);
-      cursor: pointer;
-    }
-
-    .info-box {
-      margin-top: 24px;
-      padding: 14px;
-      background: #fafafa;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      color: #475569;
-      border-left: 3px solid var(--primary-light);
-    }
-
-    .info-box-sub {
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px dashed #e2e8f0;
-      font-size: 0.82rem;
-      line-height: 1.45;
-    }
-
-    .metrics-summary {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .metric-box {
-      background: #f1f5f9;
-      padding: 16px;
-      border-radius: 10px;
-      text-align: center;
-      border: 1px solid #e2e8f0;
-    }
-
-    .metric-box.highlight {
-      background: #eff6ff;
-      border-color: #bfdbfe;
-    }
-
-    .metric-label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .metric-value {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .chart-container {
-      position: relative;
-      height: 320px;
-      width: 100%;
-    }
-
-    footer {
-      margin-top: 28px;
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    footer a {
-      color: var(--primary-light);
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    .footer-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      justify-content: center;
-      margin-top: 16px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      background: rgba(241,245,249,0.9);
-      border: 1px solid var(--border);
-    }
-
-    .footer-credit {
-      color: var(--text-muted);
-      font-size: 0.92rem;
-    }
-
-    .footer-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
-      border-radius: 8px;
-      color: var(--primary-light);
-      text-decoration: none;
-      font-weight: 600;
-      background: transparent;
-      border: 1px solid transparent;
-      transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
-    }
-
-    .footer-link:hover,
-    .footer-link:focus {
-      background: rgba(59,130,246,0.08);
-      color: var(--primary);
-      border-color: rgba(59,130,246,0.12);
-      outline: none;
-      text-decoration: none;
-    }
-
-    .footer-link:focus-visible {
-      box-shadow: 0 0 0 3px rgba(59,130,246,0.14);
-    }
-
-    .footer-link .icon {
-      width: 18px;
-      height: 18px;
-      flex: 0 0 18px;
-    }
-
-    @media (max-width: 520px) {
-      .footer-meta {
-        gap: 8px;
-        padding: 10px;
-      }
-
-      .footer-credit {
-        width: 100%;
-        margin-bottom: 2px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .footer-link {
-        transition: none;
-      }
-    }
-  </style>
 </head>
 <body>
 
@@ -366,7 +116,7 @@
 
   <footer>
     <p>Calcul hors assurance emprunteur. Simulation à visée purement indicative.</p>
-    <p><strong>Rajouter</strong> au moins <strong>0,30&nbsp;% pour l’assurance décès/invalidité de l’emprunteur</strong> (agé de 30 à 45 ans)&nbsp;: <em>par exemple, de 3,75&nbsp;% on passe alors à 4,05&nbsp;%</em>.</p>
+    <p><strong>Rajouter</strong> au moins <strong>0,30&nbsp;% pour l’assurance décès/invalidité de l’emprunteur</strong> (agé de 30 à 45 ans)&nbsp;: <em>par exemple, de 3,75&nbsp;% on passe a[...]</p>
 
     <div class="footer-meta" aria-label="Crédits et hébergement">
       <span class="footer-credit">Conçu et réalisé par <strong>JCL9433</strong> avec l'aide de l'IA</span>
@@ -382,16 +132,16 @@
 
       <a class="footer-link" href="https://github.com/?locale=fr-fr" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir GitHub dans un nouvel onglet">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.7 7.7 0 0 1 8 4.6c.68.003 1.36.092 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58[...]"/>
         </svg>
         <span>GitHub</span>
       </a>
 
       <span aria-hidden="true">-  Sur une idée du journal</span>
 
-      <a class="footer-link" href="https://www.lemonde.fr/argent/article/2026/10/16/credit-immobilier-les-banques-pretent-moins-et-les-taux-remontent_6795545_1657007.html" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir Le Monde dans un nouvel onglet">
+      <a class="footer-link" href="https://www.lemonde.fr/argent/article/2026/10/16/credit-immobilier-les-banques-pretent-moins-et-les-taux-remontent_6795545_1657007.html" target="_blank" rel="noopener noreferrer">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.7 7.7 0 0 1 8 4.6c.68.003 1.36.092 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58[...]"/>
         </svg>
         <span>Le Monde</span>
       </a>
