@@ -1,5 +1,6 @@
 /* app.js — extrait depuis index.html */
-const fmtEur = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+const fmtEur0 = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+const fmtEur2 = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 const sliderRevenu = document.getElementById('slider-revenu');
 const sliderTaux = document.getElementById('slider-taux');
@@ -52,7 +53,7 @@ const chart = new Chart(ctx, {
       legend: { display: false },
       tooltip: {
         callbacks: {
-          label: (item) => ' Capital restant : ' + fmtEur.format(item.raw)
+          label: (item) => ' Capital restant : ' + fmtEur0.format(item.raw)
         }
       }
     },
@@ -64,7 +65,7 @@ const chart = new Chart(ctx, {
       y: {
         title: { display: true, text: 'Montant restant dû' },
         ticks: {
-          callback: (v) => fmtEur.format(v)
+          callback: (v) => fmtEur0.format(v)
         }
       }
     }
@@ -84,7 +85,7 @@ function update(instantChart = false) {
   const tauxAnnuel = parseFloat(sliderTaux.value) / 100;
   const dureeAnnees = parseInt(sliderDuree.value, 10);
 
-  const revenuLabel = fmtEur.format(revenu);
+  const revenuLabel = fmtEur0.format(revenu);
   const tauxLabel = (tauxAnnuel * 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
   const dureeLabel = dureeAnnees + ' ans';
 
@@ -102,7 +103,7 @@ function update(instantChart = false) {
   sliderDuree.setAttribute('aria-valuenow', String(sliderDuree.value));
 
   const mensualiteMax = (revenu * 0.35) / 12;
-  pctInfo.textContent = fmtEur.format(mensualiteMax);
+  pctInfo.textContent = fmtEur2.format(mensualiteMax);
 
   const i = tauxAnnuel / 12;
   const n = dureeAnnees * 12;
@@ -120,9 +121,9 @@ function update(instantChart = false) {
   const totalRembourse = mensualiteMax * n;
   const totalInterets = Math.max(0, totalRembourse - capital);
 
-  resMensualite.textContent = fmtEur.format(mensualiteMax);
-  resCapital.textContent = fmtEur.format(capital);
-  resInterets.textContent = fmtEur.format(totalInterets);
+  resMensualite.textContent = fmtEur2.format(mensualiteMax);
+  resCapital.textContent = fmtEur0.format(capital);
+  resInterets.textContent = fmtEur0.format(totalInterets);
 
   const labels = [];
   const crdData = [];
