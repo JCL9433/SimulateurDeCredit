@@ -165,19 +165,22 @@ input[type=range] {
 
 .chart-container {
   position: relative;
-  height: 320px;
+  /* utiliser un ratio fixe pour obtenir une forme rectangulaire horizontale (largeur = 2 * hauteur) */
   width: 100%;
+  aspect-ratio: 2 / 1;
   /* centrer le contenu (canvas) horizontalement */
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
-/* s'assurer que le canvas ne déborde pas et reste centré */
+/* s'assurer que le canvas occupe tout l'espace du conteneur et que Chart.js peut redimensionner correctement */
 #amortizationChart,
 .chart-container canvas {
+  width: 100%;
+  height: 100%;
   max-width: 100%;
-  height: auto;
   display: block;
   margin: 0 auto;
 }
