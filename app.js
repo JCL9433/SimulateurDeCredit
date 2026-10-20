@@ -97,11 +97,6 @@ function update(instantChart = false) {
   setSliderText(sliderTaux, tauxLabel);
   setSliderText(sliderDuree, dureeLabel);
 
-  // keep aria-valuenow in sync for improved accessibility
-  // sliderRevenu.setAttribute('aria-valuenow', String(sliderRevenu.value));
-  // sliderTaux.setAttribute('aria-valuenow', String(sliderTaux.value));
-  // sliderDuree.setAttribute('aria-valuenow', String(sliderDuree.value));
-
   const mensualiteMax = (revenu * 0.35) / 12;
   pctInfo.textContent = fmtEur2.format(mensualiteMax);
 
