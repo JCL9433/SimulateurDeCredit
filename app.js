@@ -4,10 +4,12 @@ const fmtEur2 = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'E
 
 const sliderRevenu = document.getElementById('slider-revenu');
 const sliderTaux = document.getElementById('slider-taux');
+const sliderAssurance = document.getElementById('slider-assurance');
 const sliderDuree = document.getElementById('slider-duree');
 
 const valRevenu = document.getElementById('val-revenu');
 const valTaux = document.getElementById('val-taux');
+const valAssurance = document.getElementById('val-assurance');
 const valDuree = document.getElementById('val-duree');
 const pctInfo = document.getElementById('pct-info');
 const valCoeff = document.getElementById('val-coeff');
@@ -82,15 +84,23 @@ const debouncedApplyChart = debounce(applyChart, 200);
 
 function update(instantChart = false) {
   const revenu = parseFloat(sliderRevenu.value);
-  const tauxAnnuel = parseFloat(sliderTaux.value) / 100;
+//  const tauxAnnuel = parseFloat(sliderTaux.value) / 100;
+  const tauxNominal = parseFloat(sliderTaux.value) / 100;
+  const tauxAssurance = parseFloat(sliderAssurance.value) / 100;
+  const tauxGlobal = tauxNominal + tauxAssurance;
+
   const dureeAnnees = parseInt(sliderDuree.value, 10);
 
   const revenuLabel = fmtEur0.format(revenu);
   const tauxLabel = (tauxAnnuel * 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
+  const assuranceLabel = (tauxAssurance * 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
   const dureeLabel = dureeAnnees + ' ans';
 
   valRevenu.textContent = revenuLabel;
   valTaux.textContent = tauxLabel;
+  valAssurance.textContent = assuranceLabel;
+  setSliderText(sliderAssurance, assuranceLabel);
+
   valDuree.textContent = dureeLabel;
 
   setSliderText(sliderRevenu, revenuLabel);
@@ -100,7 +110,8 @@ function update(instantChart = false) {
   const mensualiteMax = (revenu * 0.35) / 12;
   pctInfo.textContent = fmtEur2.format(mensualiteMax);
 
-  const i = tauxAnnuel / 12;
+//  const i = tauxAnnuel / 12;
+  const i = tauxGlobal / 12;
   const n = dureeAnnees * 12;
 
   const coeff = (i > 0) ? (1 - Math.pow(1 + i, -n)) / i : n;
@@ -145,5 +156,8 @@ sliderDuree.addEventListener('input', () => update(false));
 sliderRevenu.addEventListener('change', () => update(true));
 sliderTaux.addEventListener('change', () => update(true));
 sliderDuree.addEventListener('change', () => update(true));
+
+sliderAssurance.addEventListener('input', () => update(false));
+sliderAssurance.addEventListener('change', () => update(true));
 
 update(true);
