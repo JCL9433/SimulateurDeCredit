@@ -89,6 +89,15 @@
 
       <div class="control-group">
         <div class="control-header">
+          <label class="control-label" id="lbl-assurance" for="slider-assurance">Taux d'assurance emprunteur</label>
+          <span class="control-val" id="val-assurance" aria-live="polite">0,30 %</span>
+        </div>
+        <input type="range" id="slider-assurance" aria-labelledby="lbl-assurance"
+               min="0" max="1.8" step="0.05" value="0.30">
+      </div>
+        
+      <div class="control-group">
+        <div class="control-header">
           <label class="control-label" id="lbl-duree" for="slider-duree">Durée du prêt</label>
           <span class="control-val" id="val-duree" aria-live="polite">25 ans</span>
         </div>
@@ -129,8 +138,7 @@
   </main>
 
   <footer>
-    <p>Calcul hors assurance emprunteur. Simulation à visée purement indicative.</p>
-    <p><strong>Rajouter</strong> au moins <strong>0,30&nbsp;% pour l’assurance décès/invalidité de l’emprunteur</strong> (âgé de 30 à 45 ans) : par exemple, de 3,75&nbsp;% on passe alors à 4,05&nbsp;%. </p>
+    <p>Simulation à but purement indicatif. Version du 26/10/2026, avec le taux d'assurance.</p>
 
     <div class="footer-meta" aria-label="Crédits et hébergement">
       <span class="footer-credit">Conçu et piloté par <strong>JCL9433</strong> avec l'aide initiale de l'IA</span>
