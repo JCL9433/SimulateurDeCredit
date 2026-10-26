@@ -92,7 +92,8 @@ function update(instantChart = false) {
   const dureeAnnees = parseInt(sliderDuree.value, 10);
 
   const revenuLabel = fmtEur0.format(revenu);
-  const tauxLabel = (tauxAnnuel * 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
+//  const tauxLabel = (tauxAnnuel * 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
+  const tauxLabel = (tauxNominal * 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
   const assuranceLabel = (tauxAssurance * 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
   const dureeLabel = dureeAnnees + ' ans';
 
