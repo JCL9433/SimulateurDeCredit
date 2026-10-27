@@ -295,10 +295,16 @@ footer a:hover {
 .tooltip-container summary {
   display: inline;
   cursor: help;
-  text-decoration: underline dotted 1.5px #2563eb;
+  /* Hérite exactement des propriétés du texte d'origine */
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  /* Conserve l'indicateur discret */
+  text-decoration: underline dotted 1.5px currentColor;
   text-underline-offset: 3px;
-  color: #1e40af;
-  list-style: none; /* Masque le triangle natif */
+  list-style: none;
 }
 
 /* Masque le triangle sous Safari / WebKit */
