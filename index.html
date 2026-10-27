@@ -104,13 +104,16 @@
         
       <div class="control-group">
         <div class="control-header">
-          <label class="control-label" id="lbl-duree" for="slider-duree">Durée du prêt</label>
+          <details class="tooltip-container">
+            <summary id="lbl-duree">Durée du prêt <span class="help-icon">ⓘ</span></summary>
+            <span class="tooltip-box">Pour une durée de prêt de 25 années, l’âge à la fin du prêt étant généralement fixé à 70 ans, l’âge maximal à la souscription est alors de 45 ans.</span>
+          </details>
           <span class="control-val" id="val-duree" aria-live="polite">25 ans</span>
         </div>
         <input type="range" id="slider-duree" aria-labelledby="lbl-duree"
                min="5" max="25" step="1" value="25">
       </div>
-
+        
       <div class="info-box">
         <div><strong>Règle HCSF&nbsp;:</strong> mensualité plafonnée à 35&nbsp;% des revenus nets, soit <strong><span id="pct-info" aria-live="polite">1 604 €</span> / mois</strong>.</div>
         <div class="info-box-sub">
@@ -144,7 +147,7 @@
   </main>
 
   <footer>
-    <p>Simulation à but purement indicatif. Version du 26/10/2026, avec le taux d'assurance.</p>
+    <p>Simulation à but indicatif. Version du <strong>27/10/2026</strong>.</p>
 
     <div class="footer-meta" aria-label="Crédits et hébergement">
       <span class="footer-credit">Conçu et piloté par <strong>JCL9433</strong> avec l'aide initiale de l'IA</span>
