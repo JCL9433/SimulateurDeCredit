@@ -71,7 +71,12 @@
 
       <div class="control-group">
         <div class="control-header">
-          <label class="control-label" id="lbl-revenu" for="slider-revenu">Revenu annuel net</label>
+<!--          <label class="control-label" id="lbl-revenu" for="slider-revenu">Revenu annuel net</label> -->
+          <details class="tooltip-container">
+            <summary>Revenu annuel net <span class="help-icon">ⓘ</span></summary>
+            <span class="tooltip-box">Il s'agit du revenu net avant impôt de l'emprunteur, minoré des revenus exceptionnels.</span>
+          </details>
+          
           <span class="control-val" id="val-revenu" aria-live="polite">55 000 €</span>
         </div>
         <input type="range" id="slider-revenu" aria-labelledby="lbl-revenu"
@@ -171,5 +176,15 @@
 
 <script src="app.js" defer></script>
 
+<script>
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll('.tooltip-container[open]').forEach((el) => {
+      if (!el.contains(e.target)) {
+        el.removeAttribute('open');
+      }
+    });
+  });
+</script>
+  
 </body>
 </html>
