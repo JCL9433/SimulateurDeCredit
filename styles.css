@@ -295,13 +295,9 @@ footer a:hover {
 .tooltip-container summary {
   display: inline;
   cursor: help;
-  /* Hérite exactement des propriétés du texte d'origine */
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  color: inherit;
-  letter-spacing: inherit;
-  /* Conserve l'indicateur discret */
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
   text-decoration: underline dotted 1.5px currentColor;
   text-underline-offset: 3px;
   list-style: none;
