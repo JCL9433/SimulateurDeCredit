@@ -71,7 +71,6 @@
 
       <div class="control-group">
         <div class="control-header">
-<!--          <label class="control-label" id="lbl-revenu" for="slider-revenu">Revenu annuel net</label> -->
           <details class="tooltip-container">
             <summary id="lbl-revenu">Revenu annuel net <span class="help-icon">ⓘ</span></summary>
             <span class="tooltip-box">Il s'agit du revenu net avant impôt de l'emprunteur, minoré des revenus exceptionnels.</span>
@@ -93,7 +92,10 @@
 
       <div class="control-group">
         <div class="control-header">
-          <label class="control-label" id="lbl-assurance" for="slider-assurance">Taux d'assurance emprunteur</label>
+          <details class="tooltip-container">
+            <summary id="lbl-assurance">Taux d'assurance emprunteur <span class="help-icon">ⓘ</span></summary>
+            <span class="tooltip-box">La valeur 0,30&nbsp;% correspond à la seule assurance décès/invalidité pour la tranche d’âge 30 à 35 ans.</span>
+          </details>
           <span class="control-val" id="val-assurance" aria-live="polite">0,30 %</span>
         </div>
         <input type="range" id="slider-assurance" aria-labelledby="lbl-assurance"
